@@ -829,7 +829,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			}
 		}
 		usart_send_string(USART1,"\r\n");
-		usart_send_string(USART1,"上海盛蒂斯自动化设备股份有限公司\r\n");
+		usart_send_string(USART1,COMPANYNAME);
 		usart_send_string(USART1,"\r\n");
 		usart_send_string(USART1,"\r\n");
 		usart_send_string(USART1,"\r\n");
