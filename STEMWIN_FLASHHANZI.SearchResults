@@ -1,0 +1,2 @@
+---- Focussable Matches (1 in 1 files) ----
+configUI.c (emwin\ui):		Focussable(WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1), 0);
