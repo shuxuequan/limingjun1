@@ -44,6 +44,13 @@ typedef struct
 }uiPage;	
 extern uiPage ui_page;	//UI界面
 
+typedef struct 
+{
+	u8 windowSKB;//1windowSKB按下 0windowSKB释放
+}buttonPress;
+extern buttonPress button_Press;	
+
+
 WM_HWIN CreateFramewin(void);
 WM_HWIN CreateWindowSKB(void);
 WM_HWIN CreateFramewinTimeSet(void);

@@ -35,7 +35,7 @@
 #define ID_TEXT_0    (GUI_ID_USER + 0x26)
 #define ID_BUTTON_0    (GUI_ID_USER + 0x27)
 
-#define VERSION "V1.09R KCG"
+#define VERSION "V1.16R KCG"
 // USER START (Optionally insert additional defines)
 // USER END
 
@@ -151,7 +151,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 WM_HWIN CreateFramewinVersion(void);
 WM_HWIN CreateFramewinVersion(void) {
   WM_HWIN hWin;
-
+  button_Press.windowSKB=0;
   hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   return hWin;
 }

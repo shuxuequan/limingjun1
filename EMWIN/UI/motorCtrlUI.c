@@ -1076,12 +1076,12 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 */
 WM_HWIN CreateFramewinMotoCtrlUI(void);
 WM_HWIN CreateFramewinMotoCtrlUI(void) {
-  WM_HWIN hWin;
-
-  hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
-  //WM_CreateTimer(WM_GetClientWindow(hWin), 1, 100, 0); //创建一个软件定时器 30ms
-  MOTORP_out();
-  return hWin;
+	WM_HWIN hWin;
+	button_Press.windowSKB=0;
+	hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
+	//WM_CreateTimer(WM_GetClientWindow(hWin), 1, 100, 0); //创建一个软件定时器 30ms
+	MOTORP_out();
+	return hWin;
 }
 
 // USER START (Optionally insert additional public code)

@@ -314,6 +314,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		case WM_NOTIFICATION_CLICKED:
 			break;
 		case WM_NOTIFICATION_RELEASED:
+			button_Press.windowSKB=0;
 			WM_HideWindow(pMsg->hWin);
 
 			//renew all keys include caps
@@ -396,8 +397,9 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		case WM_NOTIFICATION_RELEASED:
 			//GUI_StoreKeyMsg(GUI_KEY_ENTER, 1);
 			//GUI_StoreKeyMsg(GUI_KEY_ENTER, 0);
+			
 			WM_HideWindow(pMsg->hWin);
-
+			button_Press.windowSKB=0;
 			//renew all keys include caps
 			inputTYPE = (inputTYPE <= 0) ? 2 : (inputTYPE-1);
 			Message.hWinSrc = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_32);

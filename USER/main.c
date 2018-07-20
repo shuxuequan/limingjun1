@@ -320,6 +320,7 @@ void start_task(void *p_arg)
 
 //WM_HWIN hPage[3];
 uiPage ui_page;
+buttonPress button_Press;
 
 extern void GUI_UC_SetEncodeGBK(void);
 //EMWINDEMOÈÎÎñ

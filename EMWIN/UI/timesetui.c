@@ -366,22 +366,25 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			switch(NCode) {
 			case WM_NOTIFICATION_CLICKED:
 				//determine the keyboard position
-					for(i=ID_EDIT_0; i<=ID_EDIT_5; i++) EDIT_SetFocussable(WM_GetDialogItem(pMsg->hWin, i), 0);	//disable focus
-					EDIT_SetFocussable(WM_GetDialogItem(pMsg->hWin, Id), 1);
-					WM_SetFocus(WM_GetDialogItem(WM_GetClientWindow(pMsg->hWin),Id));
-					sizeX[0] = WM_GetWindowSizeX(WM_GetClientWindow(ui_page.configUi));
-					sizeY[0] = WM_GetWindowSizeY(WM_GetClientWindow(ui_page.configUi));
-					sizeX[1] = WM_GetWindowSizeX(ui_page.windowSKB);
-					sizeY[1] = WM_GetWindowSizeY(ui_page.windowSKB);
-					/*if(sizeX[0] - WM_GetWindowOrgX(pMsg->hWinSrc) < sizeX[1]) posiX = sizeX[0] - sizeX[1];
-					else posiX = WM_GetWindowOrgX(pMsg->hWinSrc);
-					if(sizeY[0]-WM_GetWindowOrgY(pMsg->hWinSrc)-WM_GetWindowSizeY(pMsg->hWinSrc) < sizeY[1])
-					posiY = WM_GetWindowOrgY(pMsg->hWinSrc) - sizeY[1];
-					else posiY = WM_GetWindowOrgY(pMsg->hWinSrc) + WM_GetWindowSizeY(pMsg->hWinSrc);*/
-					posiX=(800-sizeX[1])/2;
-					posiY=37;
-					WM_MoveTo(ui_page.windowSKB, posiX, posiY);
-					WM_ShowWindow(ui_page.windowSKB);
+					if(!button_Press.windowSKB){
+						button_Press.windowSKB=1;
+						for(i=ID_EDIT_0; i<=ID_EDIT_5; i++) EDIT_SetFocussable(WM_GetDialogItem(pMsg->hWin, i), 0);	//disable focus
+						EDIT_SetFocussable(WM_GetDialogItem(pMsg->hWin, Id), 1);
+						WM_SetFocus(WM_GetDialogItem(WM_GetClientWindow(pMsg->hWin),Id));
+						sizeX[0] = WM_GetWindowSizeX(WM_GetClientWindow(ui_page.configUi));
+						sizeY[0] = WM_GetWindowSizeY(WM_GetClientWindow(ui_page.configUi));
+						sizeX[1] = WM_GetWindowSizeX(ui_page.windowSKB);
+						sizeY[1] = WM_GetWindowSizeY(ui_page.windowSKB);
+						/*if(sizeX[0] - WM_GetWindowOrgX(pMsg->hWinSrc) < sizeX[1]) posiX = sizeX[0] - sizeX[1];
+						else posiX = WM_GetWindowOrgX(pMsg->hWinSrc);
+						if(sizeY[0]-WM_GetWindowOrgY(pMsg->hWinSrc)-WM_GetWindowSizeY(pMsg->hWinSrc) < sizeY[1])
+						posiY = WM_GetWindowOrgY(pMsg->hWinSrc) - sizeY[1];
+						else posiY = WM_GetWindowOrgY(pMsg->hWinSrc) + WM_GetWindowSizeY(pMsg->hWinSrc);*/
+						posiX=(800-sizeX[1])/2;
+						posiY=37;
+						WM_MoveTo(ui_page.windowSKB, posiX, posiY);
+						WM_ShowWindow(ui_page.windowSKB);
+					}
 			break;
 			case WM_NOTIFICATION_RELEASED:
 				/*EDIT_GetText(WM_GetFocussedWindow(), &editBuffer[0], sizeof(editBuffer));
@@ -498,7 +501,7 @@ WM_HTIMER hTimer;
 WM_HWIN CreateFramewinTimeSet(void);
 WM_HWIN CreateFramewinTimeSet(void) {
   WM_HWIN hWin;
-
+  button_Press.windowSKB=0;
   hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   hTimer = WM_CreateTimer(WM_GetClientWindow(hWin), ID_TIMER, 1000, 0); //1s
   return hWin;

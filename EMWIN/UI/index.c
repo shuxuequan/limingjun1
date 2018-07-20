@@ -228,7 +228,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 WM_HWIN CreateFramewinIndex(void);
 WM_HWIN CreateFramewinIndex(void) {
   WM_HWIN hWin;
-
+  button_Press.windowSKB=0;
   hWin = GUI_CreateDialogBox(_aDialogCreate, GUI_COUNTOF(_aDialogCreate), _cbDialog, WM_HBKWIN, 0, 0);
   return hWin;
 }
