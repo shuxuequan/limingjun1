@@ -108,6 +108,8 @@ static u32 temp=0,count=0;//时间 和占空比
 static u8  timeout,timeoutstate;//电机不转次数
 static u8  timeout_value;//电机不转次数确定值
 static u8  motorButton0State=0,motorStatedir1=0,motorStatedir2=0;//三个按键
+static u32 upVal=0;//上行测量速度(预留)
+
 static u8  motorMesureState=0;//测量状态
 static u8  swichState=0;//电气开关状态
 static u8  swichStateboot=0;//电气开关状态显示屏不跳
@@ -527,16 +529,22 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			Val=0;
 			motorMesureState=0;
 			motorButton0State =0;//停止按钮状态
-			Val = _test_result_compare.diameter*314;
-			Val = (Val*1000)/(the_end_Value());//三位小数
-			//printf("?????_test_resultV2:%d m/s\r\n",Val);
-			_test_result.v2 = Val/(float)1000;
-			Val=0;
-			//printf("!!!!!!!_test_resultV2:%f m/s\r\n",_test_result.v2);
-			sprintf(charBUF, "%.3f", _test_result.v2);
-			strcat(charBUF, "m/s");
-			LISTVIEW_SetItemText(hlist, 2, numROW-1, charBUF); 	//v2最终
-			
+			if(motorStatedir2){
+				Val = _test_result_compare.diameter*314;
+				Val = (Val*1000)/(the_end_Value());//三位小数
+				//printf("?????_test_resultV2:%d m/s\r\n",Val);
+				_test_result.v2 = Val/(float)1000;
+				Val=0;
+				//printf("!!!!!!!_test_resultV2:%f m/s\r\n",_test_result.v2);
+				sprintf(charBUF, "%.3f", _test_result.v2);
+				strcat(charBUF, "m/s");
+				LISTVIEW_SetItemText(hlist, 2, numROW-1, charBUF); 	//v2最终
+			}else{
+				_test_result.v2= _test_result.v2+0.001;
+				sprintf(charBUF, "%.3f", "_");
+				strcat(charBUF, "m/s");
+				LISTVIEW_SetItemText(hlist, 2, numROW-1, charBUF); 	//v2最终
+			}
 			LISTVIEW_SetItemText(hlist, 5, numROW-1, "停止"); 	//状态显示
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
 			BUTTON_SetFont(hItem,&GUI_FontHZ16);		
@@ -650,20 +658,20 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 	        Touch_Beep();
 	        if(motorStatedir2==1){
 				
-				MOTORP_out();
+				//MOTORP_out();
 
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
 				BUTTON_SetFont(hItem,&GUI_FontHZ16);		
-				BUTTON_SetText(hItem, "上行测量");
+				BUTTON_SetText(hItem, "下行测量");
 				motorStatedir2=0;
 				 
 			}else{
 
-				MOTORN_out();
+				//MOTORN_out();
 			 	//MOTORN_out();
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
 				BUTTON_SetFont(hItem,&GUI_FontHZ16);		
-				BUTTON_SetText(hItem, "下行测量");
+				BUTTON_SetText(hItem, "上行测量");
 				motorStatedir2=1;
 			}
         	}
