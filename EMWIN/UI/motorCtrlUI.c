@@ -50,7 +50,8 @@
 #define ID_BUTTON_6     (GUI_ID_USER + 0x0A)
 #define ID_BUTTON_7     (GUI_ID_USER + 0x0B)
 #define ID_BUTTON_8     (GUI_ID_USER + 0x0C)
-#define ID_LISTVIEW_0     (GUI_ID_USER + 0x0D)
+#define ID_BUTTON_9     (GUI_ID_USER + 0x0D)
+#define ID_LISTVIEW_0     (GUI_ID_USER + 0x0E)
 
 WM_HMEM timer;
 
@@ -74,15 +75,16 @@ WM_HMEM timer;
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
   { FRAMEWIN_CreateIndirect, "Framewin", ID_FRAMEWIN_0, 0, 0, 800, 480, 0, 0x0, 0 },
   { GRAPH_CreateIndirect, "Graph", ID_GRAPH_0, 444, 0, 346, 440, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_0, 0, 0, 80, 36, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_1, 0, 46, 80, 36, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_2, 0, 97, 80, 36, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_3, 0, 148, 80, 36, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 0, 199, 80, 36, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 0, 250, 80, 36, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_6, 0, 301, 80, 36, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_7, 0, 347, 80, 36, 0, 0x0, 0 },
-  { BUTTON_CreateIndirect, "Button", ID_BUTTON_8, 0, 393, 80, 36, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_0, 0, 0, 80, 34, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_1, 0, 44, 80, 34, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_2, 0, 88, 80, 34, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_9, 0, 132, 80, 34, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_3, 0, 176, 80, 34, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_4, 0, 220, 80, 34, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_5, 0, 264, 80, 34, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_6, 0, 308, 80, 34, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_7, 0, 352, 80, 34, 0, 0x0, 0 },
+  { BUTTON_CreateIndirect, "Button", ID_BUTTON_8, 0, 396, 80, 34, 0, 0x0, 0 },
   { LISTVIEW_CreateIndirect, "Listview", ID_LISTVIEW_0, 81, 1, 360, 440, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
@@ -107,7 +109,7 @@ static int numROW;  //list当前行数
 static u32 temp=0,count=0;//时间 和占空比
 static u8  timeout,timeoutstate;//电机不转次数
 static u8  timeout_value;//电机不转次数确定值
-static u8  motorButton0State=0,motorStatedir1=0,motorStatedir2=0;//三个按键
+static u8  motorButton0State=0,motorStatedir1=0,motorStatedir2=0,motorStatedir3=0;;//三个按键
 static u32 upVal=0;//上行测量速度(预留)
 
 static u8  motorMesureState=0;//测量状态
@@ -390,7 +392,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_8);
 		BUTTON_SetFont(hItem,&GUI_FontHZ16);		
-		BUTTON_SetText(hItem, "主界面");		
+		BUTTON_SetText(hItem, "主界面");	
+
+		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_9);
+		BUTTON_SetFont(hItem,&GUI_FontHZ16);		
+		BUTTON_SetText(hItem, "双向限速器");
 		if(_test_result_compare.result_v1<1200){//200ms周期 小于1m/s以下的次数判断多
 			timeout_value=25;
 		}else{
@@ -529,7 +535,13 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			Val=0;
 			motorMesureState=0;
 			motorButton0State =0;//停止按钮状态
-			if(motorStatedir2){
+			if((motorStatedir2==1)&&(motorStatedir3==1)){
+				_test_result.v2= _test_result.v1+0.001;
+				sprintf(charBUF, "%s", "_");
+				strcat(charBUF, "_");
+				LISTVIEW_SetItemText(hlist, 2, numROW-1, charBUF); 	//v2最终
+				
+			}else{
 				Val = _test_result_compare.diameter*314;
 				Val = (Val*1000)/(the_end_Value());//三位小数
 				//printf("?????_test_resultV2:%d m/s\r\n",Val);
@@ -539,11 +551,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 				sprintf(charBUF, "%.3f", _test_result.v2);
 				strcat(charBUF, "m/s");
 				LISTVIEW_SetItemText(hlist, 2, numROW-1, charBUF); 	//v2最终
-			}else{
-				_test_result.v2= _test_result.v2+0.001;
-				sprintf(charBUF, "%.3f", "_");
-				strcat(charBUF, "m/s");
-				LISTVIEW_SetItemText(hlist, 2, numROW-1, charBUF); 	//v2最终
+				
 			}
 			LISTVIEW_SetItemText(hlist, 5, numROW-1, "停止"); 	//状态显示
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
@@ -673,6 +681,41 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 				BUTTON_SetFont(hItem,&GUI_FontHZ16);		
 				BUTTON_SetText(hItem, "上行测量");
 				motorStatedir2=1;
+			}
+        	}
+        // USER END
+        break;
+      // USER START (Optionally insert additional code for further notification handling)
+      // USER END
+      }
+      break;
+	  case ID_BUTTON_9: // Notifications sent by 'Button'
+      switch(NCode) {
+      case WM_NOTIFICATION_CLICKED:
+        // USER START (Optionally insert code for reacting on notification message)
+        // USER END
+        break;
+      case WM_NOTIFICATION_RELEASED:
+        // USER START (Optionally insert code for reacting on notification message)
+        if(0==motorButton0State){
+	        Touch_Beep();
+	        if(motorStatedir3==1){
+				
+				//MOTORP_out();
+
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
+				BUTTON_SetFont(hItem,&GUI_FontHZ16);		
+				BUTTON_SetText(hItem, "双向限速器");
+				motorStatedir3=0;
+				 
+			}else{
+
+				//MOTORN_out();
+			 	//MOTORN_out();
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
+				BUTTON_SetFont(hItem,&GUI_FontHZ16);		
+				BUTTON_SetText(hItem, "单向限速器");
+				motorStatedir3=1;
 			}
         	}
         // USER END

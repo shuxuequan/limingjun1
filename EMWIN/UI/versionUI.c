@@ -35,7 +35,7 @@
 #define ID_TEXT_0    (GUI_ID_USER + 0x26)
 #define ID_BUTTON_0    (GUI_ID_USER + 0x27)
 
-#define VERSION "V1.16R KCG"
+#define VERSION "V1.18R KCG"
 // USER START (Optionally insert additional defines)
 // USER END
 
