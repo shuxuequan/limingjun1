@@ -371,8 +371,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 						for(i=ID_EDIT_0; i<=ID_EDIT_5; i++) EDIT_SetFocussable(WM_GetDialogItem(pMsg->hWin, i), 0);	//disable focus
 						EDIT_SetFocussable(WM_GetDialogItem(pMsg->hWin, Id), 1);
 						WM_SetFocus(WM_GetDialogItem(WM_GetClientWindow(pMsg->hWin),Id));
-						sizeX[0] = WM_GetWindowSizeX(WM_GetClientWindow(ui_page.configUi));
-						sizeY[0] = WM_GetWindowSizeY(WM_GetClientWindow(ui_page.configUi));
+						sizeX[0] = WM_GetWindowSizeX(WM_GetClientWindow(ui_page.timesetui));
+						sizeY[0] = WM_GetWindowSizeY(WM_GetClientWindow(ui_page.timesetui));
 						sizeX[1] = WM_GetWindowSizeX(ui_page.windowSKB);
 						sizeY[1] = WM_GetWindowSizeY(ui_page.windowSKB);
 						/*if(sizeX[0] - WM_GetWindowOrgX(pMsg->hWinSrc) < sizeX[1]) posiX = sizeX[0] - sizeX[1];

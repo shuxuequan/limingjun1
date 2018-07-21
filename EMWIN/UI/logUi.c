@@ -316,8 +316,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			EDIT_SetText(hItem, "\0");
 
 	        // USER START (Optionally insert code for reacting on notification message)
-			sizeX[0] = WM_GetWindowSizeX(WM_GetClientWindow(ui_page.configUi));
-			sizeY[0] = WM_GetWindowSizeY(WM_GetClientWindow(ui_page.configUi));
+			sizeX[0] = WM_GetWindowSizeX(WM_GetClientWindow(ui_page.logUi));
+			sizeY[0] = WM_GetWindowSizeY(WM_GetClientWindow(ui_page.logUi));
 			sizeX[1] = WM_GetWindowSizeX(ui_page.windowSKB);
 			sizeY[1] = WM_GetWindowSizeY(ui_page.windowSKB);
 			/*if(sizeX[0] - WM_GetWindowOrgX(pMsg->hWinSrc) < sizeX[1]) posiX = sizeX[0] - sizeX[1];
