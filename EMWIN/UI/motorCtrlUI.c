@@ -128,7 +128,8 @@ static void motor_ui_var_init(){  //切换页面时变量变零
 	timeoutstate=0;//电机不转次数
 	motorButton0State=0;
 	motorStatedir1=0;
-	motorStatedir2=0;//三个按键
+	motorStatedir2=0;//上下行
+	motorStatedir3=0;//单相双相
 	motorMesureState=0;//测量状态
 	swichState=0;//电气开关状态
 	swichStateboot=0;//电气开关状态显示屏不跳
@@ -395,7 +396,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 		BUTTON_SetText(hItem, "主界面");	
 
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_9);
-		BUTTON_SetFont(hItem,&GUI_FontHZ16);		
+		BUTTON_SetFont(hItem,&GUI_FontHZ12);		
 		BUTTON_SetText(hItem, "双向限速器");
 		if(_test_result_compare.result_v1<1200){//200ms周期 小于1m/s以下的次数判断多
 			timeout_value=25;
@@ -535,7 +536,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			Val=0;
 			motorMesureState=0;
 			motorButton0State =0;//停止按钮状态
-			if((motorStatedir2==1)&&(motorStatedir3==1)){
+			if((motorStatedir2==0)&&(motorStatedir3==1)){
 				_test_result.v2= _test_result.v1+0.001;
 				sprintf(charBUF, "%s", "_");
 				strcat(charBUF, "_");
@@ -703,8 +704,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 				
 				//MOTORP_out();
 
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
-				BUTTON_SetFont(hItem,&GUI_FontHZ16);		
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_9);
+				BUTTON_SetFont(hItem,&GUI_FontHZ12);		
 				BUTTON_SetText(hItem, "双向限速器");
 				motorStatedir3=0;
 				 
@@ -712,8 +713,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 				//MOTORN_out();
 			 	//MOTORN_out();
-				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
-				BUTTON_SetFont(hItem,&GUI_FontHZ16);		
+				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_9);
+				BUTTON_SetFont(hItem,&GUI_FontHZ12);		
 				BUTTON_SetText(hItem, "单向限速器");
 				motorStatedir3=1;
 			}

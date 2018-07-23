@@ -10,5 +10,8 @@
 *.PS
 *.SearchResults
 *.WK3
+/USER/*.lst
+/USER/*.map
+/USER/*.txt
 /USER/*.uvguix.*
 /USER/*.uvoptx
