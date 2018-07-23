@@ -10,3 +10,5 @@
 *.PS
 *.SearchResults
 *.WK3
+/USER/*.uvguix.*
+/USER/*.uvoptx
