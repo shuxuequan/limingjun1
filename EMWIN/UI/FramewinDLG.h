@@ -14,7 +14,7 @@
 //Copyright(C) 广州市星翼电子科技有限公司 2014-2024
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
-//#define SHENGDISI
+#define SHENGDISI
 
 #if defined(SHENGDISI)
 #define COMPANYNAME   "上海盛蒂斯自动化设备股份有限公司"

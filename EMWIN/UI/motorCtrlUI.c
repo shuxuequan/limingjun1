@@ -165,7 +165,7 @@ static void motor_ui_start(WM_MESSAGE * pMsg){
 	hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_0);
 	BUTTON_SetFont(hItem,&GUI_FontHZ16);		
 	BUTTON_SetText(hItem, "停止");
-	if(motorStatedir2==1)
+	if(motorStatedir2==0)
 	LISTVIEW_SetItemText(hlist, 4, numROW-1, "上行"); 
 	else
 	LISTVIEW_SetItemText(hlist, 4, numROW-1, "下行"); 
@@ -397,7 +397,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_9);
 		BUTTON_SetFont(hItem,&GUI_FontHZ12);		
-		BUTTON_SetText(hItem, "双向限速器");
+		BUTTON_SetText(hItem, "单向限速器");
 		if(_test_result_compare.result_v1<1200){//200ms周期 小于1m/s以下的次数判断多
 			timeout_value=25;
 		}else{
@@ -536,8 +536,8 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			Val=0;
 			motorMesureState=0;
 			motorButton0State =0;//停止按钮状态
-			if((motorStatedir2==0)&&(motorStatedir3==1)){
-				_test_result.v2= _test_result.v1+0.001;
+			if((motorStatedir2==0)&&(motorStatedir3==0)){
+				_test_result.v2= _test_result.v1+0.010;
 				sprintf(charBUF, "%s", "_");
 				strcat(charBUF, "_");
 				LISTVIEW_SetItemText(hlist, 2, numROW-1, charBUF); 	//v2最终
@@ -638,14 +638,14 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			MOTORP_out();
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
 			BUTTON_SetFont(hItem,&GUI_FontHZ16);		
-			BUTTON_SetText(hItem, "电机正转");
+			BUTTON_SetText(hItem, "电机反转");
 			motorStatedir1=0;
 			 
 		}else{
 		 	MOTORN_out();
 			hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_1);
 			BUTTON_SetFont(hItem,&GUI_FontHZ16);		
-			BUTTON_SetText(hItem, "电机反转");
+			BUTTON_SetText(hItem, "电机正转");
 			motorStatedir1=1;
 			}
 		}
@@ -671,7 +671,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
 				BUTTON_SetFont(hItem,&GUI_FontHZ16);		
-				BUTTON_SetText(hItem, "下行测量");
+				BUTTON_SetText(hItem, "上行测量");
 				motorStatedir2=0;
 				 
 			}else{
@@ -680,7 +680,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			 	//MOTORN_out();
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_2);
 				BUTTON_SetFont(hItem,&GUI_FontHZ16);		
-				BUTTON_SetText(hItem, "上行测量");
+				BUTTON_SetText(hItem, "下行测量");
 				motorStatedir2=1;
 			}
         	}
@@ -706,7 +706,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_9);
 				BUTTON_SetFont(hItem,&GUI_FontHZ12);		
-				BUTTON_SetText(hItem, "双向限速器");
+				BUTTON_SetText(hItem, "单向限速器");
 				motorStatedir3=0;
 				 
 			}else{
@@ -715,7 +715,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 			 	//MOTORN_out();
 				hItem = WM_GetDialogItem(pMsg->hWin, ID_BUTTON_9);
 				BUTTON_SetFont(hItem,&GUI_FontHZ12);		
-				BUTTON_SetText(hItem, "单向限速器");
+				BUTTON_SetText(hItem, "双向限速器");
 				motorStatedir3=1;
 			}
         	}

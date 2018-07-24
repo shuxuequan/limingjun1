@@ -35,7 +35,7 @@
 #define ID_TEXT_0    (GUI_ID_USER + 0x26)
 #define ID_BUTTON_0    (GUI_ID_USER + 0x27)
 
-#define VERSION "V1.19R KCG"
+#define VERSION "V1.23R KCG"
 // USER START (Optionally insert additional defines)
 // USER END
 
@@ -90,7 +90,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
 	hItem = pMsg->hWin;
 	FRAMEWIN_SetTitleHeight(hItem, 36);
 	FRAMEWIN_SetFont(hItem, &GUI_FontHZ16);
-	FRAMEWIN_SetText(hItem, "上海盛蒂斯自动化设备股份有限公司");
+	FRAMEWIN_SetText(hItem, COMPANYNAME);
 	FRAMEWIN_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);   
 	// USER START (Optionally insert additional code for further widget initialization)
 	// USER END
